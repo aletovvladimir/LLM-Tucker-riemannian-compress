@@ -15,4 +15,5 @@ dependencies = [
 dev = [
     "fire>=0.7.0",
     "ipykernel>=6.29.5",
+    "pytest>=8.4.0",
 ]
