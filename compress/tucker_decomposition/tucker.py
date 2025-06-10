@@ -81,6 +81,7 @@ class Tucker:
                 rank = back.cumsum(back.flip(s))
                 rank = back.flip(~(rank <= eps_svd))
             else:
+                # print(i, len(ml_rank))
                 max_rank = ml_rank[i]
                 rank = back.tensor([False] * u.shape[1], dtype=bool)
                 rank[:max_rank] = True

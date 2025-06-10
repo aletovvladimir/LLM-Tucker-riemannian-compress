@@ -26,7 +26,7 @@ class TuckerLinear(RiemannLayer):
         self.dims = dims
         self.eps = eps
         matrix = self._decompose(layer, rank)
-        super(TuckerLinear, self).__init__(matrix.core, matrix.factors, rank)
+        super().__init__(matrix.core, matrix.factors, rank)
         if layer.bias is not None and bias:
             self.bias = nn.Parameter(layer.bias)
         else:
@@ -46,6 +46,7 @@ class TuckerLinear(RiemannLayer):
         data = data.permute([i // 2 if i % 2 == 0 else i // 2 + n for i in range(2 * n)])
         data = data.reshape(self.dims[1])
         matrix = TuckerMatrix.from_dense(data, self.dims[0][:3], self.dims[0][3:], self.eps)
+        print(matrix.core.shape, len(matrix.factors) )
         matrix = matrix.round(max_rank=rank)
         return matrix
 

@@ -122,6 +122,8 @@ class TuckerRiemannAdam(RiemannTuckerOptimizer):
             for idx, param in enumerate(group["params"]):
                 if idx == 0:
                     S, dS = param.data, param.grad
+                    if dS is None:
+                        raise ValueError(f'{group_idx} param group have not grad', group)
                     rank_slices = tuple([slice(0, rk[i]) for i in range(dS.ndim)])
                     dS = dS[rank_slices]
                     S = S[rank_slices]
@@ -167,6 +169,7 @@ class TuckerRiemannAdam(RiemannTuckerOptimizer):
         self._riemann_grad()
         for group_idx, group in enumerate(self.param_groups):
             rank = group["rank"]
+            
             x_k = self.directions[group_idx].linear_comb(-group["lr"]).construct()
             x_k = x_k.round(rank)
 

@@ -9,4 +9,7 @@ wheels/
 
 # Virtual environments
 .venv
-
+*.ipynb
+log.txt
+test_imports.txt
+wandb/
