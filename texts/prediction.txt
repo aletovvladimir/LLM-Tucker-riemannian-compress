@@ -1,15 +1,15 @@
 Text: Interstellar is a visually stunning masterpiece that explores the complexities of space, time, and human emotion. Hans Zimmer’s score is hauntingly beautiful, and Matthew McConaughey delivers one of his best performances. A true sci-fi epic that stays with you long after the credits roll.
-Prediction: positive (Prob: 0.9997)
+Prediction: positive (Prob: 0.9945)
 ==================================================
 Text: Fast & Furious 9 is undeniably entertaining, with outrageous stunts and non-stop action. But at some point, it feels like the franchise left logic and physics behind. Still, if you're in it for the adrenaline, it won't disappoint.
-Prediction: positive (Prob: 0.9996)
+Prediction: positive (Prob: 0.9433)
 ==================================================
 Text: Despite some creepy atmosphere, The Nun fails to deliver genuine scares. The plot is predictable, the characters are flat, and the jump scares are cheap. A forgettable entry in the Conjuring universe.
-Prediction: negative (Prob: 0.9997)
+Prediction: negative (Prob: 0.8838)
 ==================================================
 Text: The Pursuit of Happyness is an inspiring and emotionally powerful story about perseverance and fatherhood. Will Smith gives a heartfelt performance that resonates deeply. A moving film that earns its tears honestly.
-Prediction: positive (Prob: 0.9997)
+Prediction: positive (Prob: 0.9944)
 ==================================================
 Text: The film has its funny moments, especially thanks to the witty one-liners and solid comedic timing from the cast. However, the story is thin and some jokes fall flat. It’s an okay watch, but nothing groundbreaking.
-Prediction: positive (Prob: 0.9990)
+Prediction: positive (Prob: 0.9731)
 ==================================================

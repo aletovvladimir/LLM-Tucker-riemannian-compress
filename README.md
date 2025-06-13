@@ -1,6 +1,6 @@
 # 📚 LLM-Tucker-Riemannian-Compress
 
-Реализация сжатия LLM-моделей с использованием тензорного разложения Такера и римановой оптимизации. Обучение классификатора на датасете IMDb.
+🔎 Реализация сжатия LLM-моделей с использованием тензорного разложения Такера и римановой оптимизации. Обучение классификатора на датасете IMDb.
 
 ---
 
@@ -27,7 +27,7 @@ pip install uv
 uv pip install .
 ```
 
-📌 Для установки зависимостей для разработки:
+📌 Для установки зависимостей для разработчиков:
 
 ```bash
 uv pip install --group dev
@@ -41,10 +41,42 @@ uv pip install --group dev
 
 ---
 
-## Все дальнейшие команды запускаются из папки src:
+## ⬇️ Получение данных (DVC)
+
+📆 Проект использует [DVC](https://dvc.org/) и Google Drive для хранения артефактов.
+
+📦 Чтобы скачать необходимые файлы:
+
+```bash
+dvc pull
+```
+
+📌 **Важно:** используется Google service account.
+
+1. Запросите у автора `gdrive-credentials.json`
+2. Сохраните его в корневой папке проекта `.dvc`
+3. Убедитесь, что в `.dvc/config` указано:
+
+```ini
+[core]
+    remote = gdrive
+['remote "gdrive"']
+    url = gdrive://1-GW_D8d4mxCQbwXCj51D9sLAnYW4ackr
+    gdrive_use_service_account = true
+    gdrive_service_account_file = gdrive-credentials.json
+```
+
+4. Добавьте `gdrive-credentials.json` в `.gitignore`
+
+---
+
+## ✅ Запуск из `src/`
+
 ```bash
 cd src
 ```
+
+---
 
 ## 🏃 Обучение
 
@@ -52,27 +84,22 @@ cd src
 python -m training_and_inference.train
 ```
 
-* Чекпойнты сохраняются в `model_checkpoints/`
-* Гиперпараметры конфигурируются через Hydra (`configs/config.yaml`)
+* Чекпойнты падают в `model_checkpoints/`
+* Гиперпараметры: `configs/config.yaml`
 
 ---
 
 ## 📊 MLflow
 
-Логируются:
+* `train_loss`, `val_loss`, `val_accuracy`, `lr`
 
-* `train_loss`
-* `val_loss`
-* `val_accuracy`
-* `lr`
-
-Запуск MLflow UI:
+📅 Запуск UI:
 
 ```bash
 python -m training_and_inference.utils.mlflow_server
 ```
 
-Откройте: [http://localhost:8080](http://localhost:8080)
+[http://localhost:8080](http://localhost:8080)
 
 ---
 
@@ -82,10 +109,10 @@ python -m training_and_inference.utils.mlflow_server
 python -m training_and_inference.inference
 ```
 
-* Ожидается файл: `texts/review.txt`
-* Результаты сохраняются в `prediction.txt`
+* Вход: `../texts/review.txt`
+* Выход: `prediction.txt`
 
-### 💬 Пример вывода:
+💬 Пример:
 
 ```
 Text: Interstellar is a visually stunning masterpiece...
@@ -102,7 +129,6 @@ python -m training_and_inference.onnx_utils.convert_and_export
 ```
 
 * Экспорт: `onnx-model/tucker_model.onnx`
-* Валидация ONNX выполняется автоматически
 
 ---
 
@@ -112,13 +138,14 @@ python -m training_and_inference.onnx_utils.convert_and_export
 ├── src/
 │   ├── compress/              # Тензорная алгебра
 │   ├── model_compression/     # Сжатие + риманова оптимизация
-│   └── model_training/        # Обучение, инференс, ONNX, MLflow
+│   └── training_and_inference/ # Обучение, инференс, ONNX, MLflow
 ├── compression_tests/         # Тесты
 ├── texts/                     # Тексты для инференса
 ├── model_checkpoints/         # Чекпойнты
 ├── onnx-model/                # ONNX-модели
 ├── plots/                     # Hydra и MLflow логи
 ├── pyproject.toml             # Зависимости
+├── dvc.yaml                   # DVC пайплайн
 ```
 
 ---
@@ -126,9 +153,10 @@ python -m training_and_inference.onnx_utils.convert_and_export
 ## 🛠️ Зависимости
 
 * Все зависимости указаны в `pyproject.toml`
+* Установка через `uv`
 
 ---
 
-## 📝 License
+## 📍 License
 
 Apache License.
