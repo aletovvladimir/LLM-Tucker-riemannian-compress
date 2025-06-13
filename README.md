@@ -43,7 +43,7 @@ uv pip install --group dev
 
 ## ⬇️ Получение данных (DVC)
 
-📆 Проект использует [DVC](https://dvc.org/) и Google Drive для хранения артефактов.
+🗓️ Проект использует [DVC](https://dvc.org/) и Google Drive для хранения артефактов.
 
 📦 Чтобы скачать необходимые файлы:
 
@@ -54,7 +54,7 @@ dvc pull
 📌 **Важно:** используется Google service account.
 
 1. Запросите у автора `gdrive-credentials.json`
-2. Сохраните его в корневой папке проекта `.dvc`
+2. Сохраните его в `.dvc/`
 3. Убедитесь, что в `.dvc/config` указано:
 
 ```ini
@@ -91,15 +91,15 @@ python -m training_and_inference.train
 
 ## 📊 MLflow
 
-* `train_loss`, `val_loss`, `val_accuracy`, `lr`
+* Логируются: `train_loss`, `val_loss`, `val_accuracy`, `lr`
 
-📅 Запуск UI:
+🗓️ Запуск UI:
 
 ```bash
 python -m training_and_inference.utils.mlflow_server
 ```
 
-[http://localhost:8080](http://localhost:8080)
+Открыть: [http://localhost:8080](http://localhost:8080)
 
 ---
 
@@ -128,24 +128,39 @@ Prediction: positive (Prob: 0.9997)
 python -m training_and_inference.onnx_utils.convert_and_export
 ```
 
-* Экспорт: `onnx-model/tucker_model.onnx`
+* Результат: `onnx-model/tucker_model.onnx`
 
 ---
 
-## 🗂️ Структура проекта
+## 🚀 TensorRT Экспорт
+
+Модель можно конвертировать в TensorRT для ускоренного инференса:
+
+```bash
+python -m training_and_inference.tensort_utils.convert_to_tensorrt
+```
+
+* Вход: `onnx-model/tucker_model.onnx`
+* Выход: `onnx-model/tucker_model.trt`
+
+> ⚠️ Убедитесь, что ваша система поддерживает TensorRT и установлены CUDA-драйверы. Модель должна иметь фиксированные входы.
+
+---
+
+## 📂 Структура проекта
 
 ```
 ├── src/
-│   ├── compress/              # Тензорная алгебра
-│   ├── model_compression/     # Сжатие + риманова оптимизация
-│   └── training_and_inference/ # Обучение, инференс, ONNX, MLflow
-├── compression_tests/         # Тесты
-├── texts/                     # Тексты для инференса
-├── model_checkpoints/         # Чекпойнты
-├── onnx-model/                # ONNX-модели
-├── plots/                     # Hydra и MLflow логи
-├── pyproject.toml             # Зависимости
-├── dvc.yaml                   # DVC пайплайн
+│   ├── compress/               # Тензорная алгебра
+│   ├── model_compression/      # Сжатие + риманова оптимизация
+│   └── training_and_inference/ # Обучение, инференс, ONNX, TensorRT, MLflow
+├── compression_tests/          # Тесты
+├── texts/                      # Тексты для инференса
+├── model_checkpoints/          # Чекпойнты
+├── onnx-model/                 # ONNX / TensorRT модели
+├── plots/                      # Hydra и MLflow логи
+├── pyproject.toml              # Зависимости
+├── dvc.yaml                    # DVC пайплайн
 ```
 
 ---
