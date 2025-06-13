@@ -23,7 +23,7 @@ riemannian_params:
     replace_layers_idxs: [2, 3, 4,]
 
 training_params:
-    batch_size: 56
+    batch_size: 128
     num_workers: 8
 
 hydra:
@@ -36,5 +36,6 @@ mlflow:
 inference:
     texts_dir: ../texts
     output_dir: ../texts
+    ckpt_dir: ../model_checkpoints
     device: cuda
 
