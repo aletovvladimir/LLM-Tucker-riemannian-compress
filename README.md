@@ -44,7 +44,7 @@ uv pip install --group dev
 ## 🏃 Обучение
 
 ```bash
-python -m src.model_training.train
+python -m src.training_and_inference.train
 ```
 
 * Чекпойнты сохраняются в `model_checkpoints/`
@@ -64,7 +64,7 @@ python -m src.model_training.train
 Запуск MLflow UI:
 
 ```bash
-python -m src.model_training.utils.mlflow_server
+python -m src.training_and_inference.utils.mlflow_server
 ```
 
 Откройте: [http://localhost:8080](http://localhost:8080)
@@ -74,7 +74,7 @@ python -m src.model_training.utils.mlflow_server
 ## 🧠 Инференс
 
 ```bash
-python -m src.model_training.inference
+python -m src.training_and_inference.inference
 ```
 
 * Ожидается файл: `texts/review.txt`
@@ -93,7 +93,7 @@ Prediction: positive (Prob: 0.9997)
 ## 📦 ONNX Экспорт
 
 ```bash
-python -m src.model_training.onnx_utils.convert_and_export
+python -m src.training_and_inference.onnx_utils.convert_and_export
 ```
 
 * Экспорт: `onnx-model/tucker_model.onnx`
