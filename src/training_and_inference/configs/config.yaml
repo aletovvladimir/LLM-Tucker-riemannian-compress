@@ -12,7 +12,7 @@ project_name: BERT_IMDB
 run_name: tucker_compression
 
 data_params:
-    data_link: imdb
+    data_link: ../data/imdb.csv
 
 model_params:
     model_link: fabriceyhc/bert-base-uncased-imdb

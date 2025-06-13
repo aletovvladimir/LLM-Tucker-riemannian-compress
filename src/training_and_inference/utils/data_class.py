@@ -5,7 +5,8 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from transformers import AutoTokenizer
 from omegaconf import DictConfig
-
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 def get_tokenizer(config: DictConfig):
     model_link = config.model_params.model_link
@@ -29,8 +30,19 @@ class TDataset(pl.LightningDataModule):
         return self.tokenizer(examples["text"], padding="max_length", truncation=True)
 
     def setup(self, stage=None):
-        data = datasets.load_dataset(self.data_link)
-        token_data = data.map(self.tokenize_func, batched=True)
+        data = pd.read_csv(self.data_link)
+        data = data.rename(columns={'review' : 'text', 'sentiment':'label'})
+        
+        train_df, test_df = train_test_split(df, test_size=0.5, random_state=self.config.seed.seed)
+        train_dataset = datasets.Dataset.from_pandas(train_df)
+        test_dataset = datasets.Dataset.from_pandas(test_df)
+        
+        dataset = dataset.DatasetDict({
+            "train": train_dataset,
+            "test": test_dataset,
+        })
+        
+        token_data = dataset.map(self.tokenize_func, batched=True)
 
         if stage == "fit":
             self.train_dataset = token_data["train"]
