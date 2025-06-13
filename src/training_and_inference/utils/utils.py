@@ -1,6 +1,6 @@
 import pytorch_lightning.callbacks as plc
 from hydra.utils import instantiate
-from omegaconfig import Dictconfig
+from omegaconf import DictConfig
 from pytorch_lightning.callbacks import Callback
 from pytorch_lightning.loggers import Logger
 from pytorch_lightning import Trainer
@@ -11,21 +11,21 @@ from .data_class import TDataset
 from .model_class import LitModel
 
 
-def get_model(config: Dictconfig) -> pl.LightningModule:
+def get_model(config: DictConfig) -> pl.LightningModule:
     model = LitModel(config)
     return model
 
 
-def get_data(config: Dictconfig) -> pl.LightningDataModule:
+def get_data(config: DictConfig) -> pl.LightningDataModule:
     datamodule = TDataset(config)
     return datamodule
 
 
-def get_trainer(config: Dictconfig, loggers: List[Logger], callbacks: List[Callback]) -> Trainer:
+def get_trainer(config: DictConfig, loggers: List[Logger], callbacks: List[Callback]) -> Trainer:
     trainer = instantiate(config.trainer, callbacks=callbacks, logger=loggers)
     return trainer
 
-def get_callbacks(config: Dictconfig) -> List[Callback]:
+def get_callbacks(config: DictConfig) -> List[Callback]:
     callbacks = []
 
     for name in config.callbacks.callbacks:
