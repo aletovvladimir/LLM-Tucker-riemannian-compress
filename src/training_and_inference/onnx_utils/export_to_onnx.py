@@ -28,8 +28,8 @@ def export_to_onnx(config: DictConfig, model: nn.Module, output_path: str):
         return_tensors="pt",  # важно для onnx
     )
 
-    dummy_input_ids = dummy["input_ids"]
-    dummy_attention_mask = dummy["attention_mask"]
+    dummy_input_ids = dummy["input_ids"].to(torch.int32)
+    dummy_attention_mask = dummy["attention_mask"].to(torch.int32)
 
     onnx_model = ONNXWrapper(model.model)  # model.model = nn.Module внутри LitModel
 

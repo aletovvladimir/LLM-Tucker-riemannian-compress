@@ -1,0 +1,5 @@
+outs:
+- md5: 04869870f680c49f83a6a20850b7c6c8
+  size: 444815467
+  hash: md5
+  path: tucker_model.onnx

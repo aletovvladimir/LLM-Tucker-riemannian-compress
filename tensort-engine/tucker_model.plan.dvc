@@ -1,0 +1,5 @@
+outs:
+- md5: 547ff580c7868776e9f7ca1b65ad51ac
+  size: 446983556
+  hash: md5
+  path: tucker_model.plan

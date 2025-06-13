@@ -15,6 +15,6 @@ test_imports.txt
 wandb/
 plots/
 outputs/
-model_checkpoints/
+# model_checkpoints/
 riemann_compression/
-onnx-model/
+# onnx-model/

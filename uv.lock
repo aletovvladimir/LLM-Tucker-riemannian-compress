@@ -376,6 +376,18 @@ wheels = [
 ]
 
 [[package]]
+name = "coloredlogs"
+version = "15.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "humanfriendly" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/cc/c7/eed8f27100517e8c0e6b923d5f0845d0cb99763da6fdee00478f91db7325/coloredlogs-15.0.1.tar.gz", hash = "sha256:7c991aa71a4577af2f82600d8f8f3a89f936baeaf9b50a9c197da014e5bf16b0", size = 278520, upload-time = "2021-06-11T10:22:45.202Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a7/06/3d6badcf13db419e25b07041d9c7b4a2c331d3f4e7134445ec5df57714cd/coloredlogs-15.0.1-py2.py3-none-any.whl", hash = "sha256:612ee75c546f53e92e70049c9dbfcc18c935a2b9a53b66085ce9ef6a6e5c0934", size = 46018, upload-time = "2021-06-11T10:22:42.561Z" },
+]
+
+[[package]]
 name = "comm"
 version = "0.2.2"
 source = { registry = "https://pypi.org/simple" }
@@ -835,6 +847,15 @@ wheels = [
 ]
 
 [[package]]
+name = "flatbuffers"
+version = "25.2.10"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e4/30/eb5dce7994fc71a2f685d98ec33cc660c0a5887db5610137e60d8cbc4489/flatbuffers-25.2.10.tar.gz", hash = "sha256:97e451377a41262f8d9bd4295cc836133415cc03d8cb966410a4af92eb00d26e", size = 22170, upload-time = "2025-02-11T04:26:46.257Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b8/25/155f9f080d5e4bc0082edfda032ea2bc2b8fab3f4d25d46c1e9dd22a1a89/flatbuffers-25.2.10-py2.py3-none-any.whl", hash = "sha256:ebba5f4d5ea615af3f7fd70fc310636fbb2bbd1f566ac0a23d98dd412de50051", size = 30953, upload-time = "2025-02-11T04:26:44.484Z" },
+]
+
+[[package]]
 name = "flatten-dict"
 version = "0.4.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1174,6 +1195,18 @@ wheels = [
 ]
 
 [[package]]
+name = "humanfriendly"
+version = "10.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyreadline3", marker = "sys_platform == 'win32'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/cc/3f/2c29224acb2e2df4d2046e4c73ee2662023c58ff5b113c4c1adac0886c43/humanfriendly-10.0.tar.gz", hash = "sha256:6b0b831ce8f15f7300721aa49829fc4e83921a9a301cc7f606be6686a2288ddc", size = 360702, upload-time = "2021-09-17T21:40:43.31Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f0/0f/310fb31e39e2d734ccaa2c0fb981ee41f7bd5056ce9bc29b2248bd569169/humanfriendly-10.0-py2.py3-none-any.whl", hash = "sha256:1697e1a8a8f550fd43c2865cd84542fc175a61dcb779b6fee18cf6b6ccba1477", size = 86794, upload-time = "2021-09-17T21:40:39.897Z" },
+]
+
+[[package]]
 name = "hydra-core"
 version = "1.3.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1429,11 +1462,13 @@ dependencies = [
     { name = "numpy" },
     { name = "omegaconf" },
     { name = "onnx" },
+    { name = "onnxruntime" },
     { name = "opt-einsum" },
     { name = "pandas" },
     { name = "pytorch-lightning" },
     { name = "scikit-learn" },
     { name = "scipy" },
+    { name = "tensorrt" },
     { name = "torch" },
     { name = "transformers" },
 ]
@@ -1457,11 +1492,13 @@ requires-dist = [
     { name = "numpy", specifier = "==1.21.4" },
     { name = "omegaconf", specifier = ">=2.3.0" },
     { name = "onnx", specifier = ">=1.17.0" },
+    { name = "onnxruntime", specifier = ">=1.12.1" },
     { name = "opt-einsum", specifier = "==3.3.0" },
     { name = "pandas", specifier = ">=2.0.3" },
     { name = "pytorch-lightning", specifier = ">=2.3.3" },
     { name = "scikit-learn", specifier = ">=1.6.1" },
     { name = "scipy", specifier = "==1.8.0" },
+    { name = "tensorrt", specifier = ">=10.12.0.36" },
     { name = "torch", specifier = "==2.0.0" },
     { name = "transformers", specifier = "==4.37.1" },
 ]
@@ -1713,6 +1750,16 @@ wheels = [
 ]
 
 [[package]]
+name = "nvidia-cuda-runtime-cu12"
+version = "12.9.79"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bc/e0/0279bd94539fda525e0c8538db29b72a5a8495b0c12173113471d28bce78/nvidia_cuda_runtime_cu12-12.9.79-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:83469a846206f2a733db0c42e223589ab62fd2fabac4432d2f8802de4bded0a4", size = 3515012, upload-time = "2025-06-05T20:00:35.519Z" },
+    { url = "https://files.pythonhosted.org/packages/bc/46/a92db19b8309581092a3add7e6fceb4c301a3fd233969856a8cbf042cd3c/nvidia_cuda_runtime_cu12-12.9.79-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:25bba2dfb01d48a9b59ca474a1ac43c6ebf7011f1b0b8cc44f54eb6ac48a96c3", size = 3493179, upload-time = "2025-06-05T20:00:53.735Z" },
+    { url = "https://files.pythonhosted.org/packages/59/df/e7c3a360be4f7b93cee39271b792669baeb3846c58a4df6dfcf187a7ffab/nvidia_cuda_runtime_cu12-12.9.79-py3-none-win_amd64.whl", hash = "sha256:8e018af8fa02363876860388bd10ccb89eb9ab8fb0aa749aaf58430a9f7c4891", size = 3591604, upload-time = "2025-06-05T20:11:17.036Z" },
+]
+
+[[package]]
 name = "oauth2client"
 version = "4.1.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1756,6 +1803,28 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/dd/5b/c4f95dbe652d14aeba9afaceb177e9ffc48ac3c03048dd3f872f26f07e34/onnx-1.17.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3193a3672fc60f1a18c0f4c93ac81b761bc72fd8a6c2035fa79ff5969f07713e", size = 16046244, upload-time = "2024-10-01T21:45:52.164Z" },
     { url = "https://files.pythonhosted.org/packages/08/a9/c1f218085043dccc6311460239e253fa6957cf12ee4b0a56b82014938d0b/onnx-1.17.0-cp310-cp310-win32.whl", hash = "sha256:0141c2ce806c474b667b7e4499164227ef594584da432fd5613ec17c1855e311", size = 14423516, upload-time = "2024-10-01T21:45:55.071Z" },
     { url = "https://files.pythonhosted.org/packages/0e/d3/d26ebf590a65686dde6b27fef32493026c5be9e42083340d947395f93405/onnx-1.17.0-cp310-cp310-win_amd64.whl", hash = "sha256:dfd777d95c158437fda6b34758f0877d15b89cbe9ff45affbedc519b35345cf9", size = 14528496, upload-time = "2024-10-01T21:45:58.065Z" },
+]
+
+[[package]]
+name = "onnxruntime"
+version = "1.12.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "coloredlogs" },
+    { name = "flatbuffers" },
+    { name = "numpy" },
+    { name = "packaging" },
+    { name = "protobuf" },
+    { name = "sympy" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/95/7e/7302aa35189d15ec18769d360d1f020cfee2cd4a55c2fa5c1d59f26df2b9/onnxruntime-1.12.1-cp310-cp310-macosx_10_15_x86_64.whl", hash = "sha256:98bb8920036b6ae1bc71af1bb061cd42297717a4b25c0ba521f3471ef946e4f2", size = 6045369, upload-time = "2022-08-04T20:48:13.382Z" },
+    { url = "https://files.pythonhosted.org/packages/5e/97/4f990e470e50014fc61c0d642998cded31469110584c270953d901c3d739/onnxruntime-1.12.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:977e4388c773a14cf2f71c6f4ac4f039691ab3ac7ade4e13e7f019d752eaa053", size = 5332303, upload-time = "2022-08-04T20:47:54.954Z" },
+    { url = "https://files.pythonhosted.org/packages/fb/f7/ecaafaf5dad7d51cc8b2eab802fcc24bd79997226a86e13f8440425b24f1/onnxruntime-1.12.1-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4749a89d2f820ae5d80704a55fedd233fa54dd2adaecf4423435eb68207dace7", size = 6279300, upload-time = "2022-08-04T20:47:18.344Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/f8/c86ec386c9ef927ad76c640d069a3ba81ca266a08e4739400c1eeb8eaff1/onnxruntime-1.12.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2715aa4d0bc03acf92c79df3d52e7435ea9da3ab2ed2208ad66534a51d2e5de9", size = 5493709, upload-time = "2022-08-04T20:47:33.919Z" },
+    { url = "https://files.pythonhosted.org/packages/45/e1/b9fc97f217412f3e3ac16ff07e6047897b82342c367683417c20aa0ff7ed/onnxruntime-1.12.1-cp310-cp310-manylinux_2_27_x86_64.whl", hash = "sha256:84176d930aabbdc6ad93021cf416e58af6a88f1c43a5d921f0b02c82c0491cd1", size = 4901222, upload-time = "2022-08-04T20:47:42.288Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/73/1e6cb67b5a6f385ffea3b23be71c09ab6deaf70722e718be4e69835ec222/onnxruntime-1.12.1-cp310-cp310-win32.whl", hash = "sha256:51a8777018e464b9ba8091c028c53c9f399d64a5994a9ff9f17e88969e62bbe2", size = 5025898, upload-time = "2022-08-04T20:47:21.462Z" },
+    { url = "https://files.pythonhosted.org/packages/f9/90/2309e7e955f0885334b82bed0bd701148ba34b7a2449823f4b0a1ab48dab/onnxruntime-1.12.1-cp310-cp310-win_amd64.whl", hash = "sha256:65bdbb27ea50f0f84c2039ea66e97363c6a31022965575bca8e5f220a40b0c5c", size = 5816933, upload-time = "2022-08-04T20:47:02.356Z" },
 ]
 
 [[package]]
@@ -2246,6 +2315,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pyreadline3"
+version = "3.5.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0f/49/4cea918a08f02817aabae639e3d0ac046fef9f9180518a3ad394e22da148/pyreadline3-3.5.4.tar.gz", hash = "sha256:8d57d53039a1c75adba8e50dd3d992b28143480816187ea5efbd5c78e6c885b7", size = 99839, upload-time = "2024-09-19T02:40:10.062Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5a/dc/491b7661614ab97483abf2056be1deee4dc2490ecbf7bff9ab5cdbac86e1/pyreadline3-3.5.4-py3-none-any.whl", hash = "sha256:eaf8e6cc3c49bcccf145fc6067ba8643d1df34d604a1ec0eccbf7a18e6d3fae6", size = 83178, upload-time = "2024-09-19T02:40:08.598Z" },
+]
+
+[[package]]
 name = "pytest"
 version = "8.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2731,6 +2809,44 @@ sdist = { url = "https://files.pythonhosted.org/packages/ec/fe/802052aecb21e3797
 wheels = [
     { url = "https://files.pythonhosted.org/packages/40/44/4a5f08c96eb108af5cb50b41f76142f0afa346dfa99d5296fe7202a11854/tabulate-0.9.0-py3-none-any.whl", hash = "sha256:024ca478df22e9340661486f85298cff5f6dcdba14f3813e8830015b9ed1948f", size = 35252, upload-time = "2022-10-06T17:21:44.262Z" },
 ]
+
+[[package]]
+name = "tensorrt"
+version = "10.12.0.36"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tensorrt-cu12" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2c/ad/c7cc31ec45eb2d28444f99a30f8477d6bb16ec230107a6e8bec16125890d/tensorrt-10.12.0.36.tar.gz", hash = "sha256:b246a830c26713e097b73151917e101cfb81aa0e7274c3c3b4c1f9f8b886be2e", size = 40702, upload-time = "2025-06-12T21:54:27.855Z" }
+
+[[package]]
+name = "tensorrt-cu12"
+version = "10.12.0.36"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tensorrt-cu12-bindings" },
+    { name = "tensorrt-cu12-libs" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a2/5f/be05d7a6683e06333a3ba195e5d68dc602294eb21d4bbbe8c01941bb614b/tensorrt_cu12-10.12.0.36.tar.gz", hash = "sha256:aedeee0195c042592ac6b0536b19bc8cdbb1a548f35e09d24fbe78e1c76217c5", size = 18224, upload-time = "2025-06-12T21:54:43.474Z" }
+
+[[package]]
+name = "tensorrt-cu12-bindings"
+version = "10.12.0.36"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/35/b2/3c77a90a9c4f5b5ec40fa5b5227595f880a42d4e6f19e0868531b85b2442/tensorrt_cu12_bindings-10.12.0.36-cp310-none-manylinux_2_28_x86_64.whl", hash = "sha256:7ecdb6fc2555caed7d4fbbd8158ed7ced64e230c125484f62a5369c40dcc70e5", size = 1172872, upload-time = "2025-06-12T21:44:03.397Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/8a/b26adc5c549472cf8fc1ede8702f037e1da8f1755ac5c6f5419ee4703a78/tensorrt_cu12_bindings-10.12.0.36-cp310-none-manylinux_2_31_aarch64.whl", hash = "sha256:d8548ab5976ca5c91279c68ee77f4c892e03460709cfa3fbd2a22aa8123cb731", size = 1242157, upload-time = "2025-06-12T21:31:02.294Z" },
+    { url = "https://files.pythonhosted.org/packages/57/11/ebd1abd00bd405c9aca17c4fdd164e9b4ca6091204f2124e4ed3ac8c7d55/tensorrt_cu12_bindings-10.12.0.36-cp310-none-win_amd64.whl", hash = "sha256:71be162a77ec9d5165d8c6ffad95179882e2c8604a68d7e21933258c182a8c0a", size = 869257, upload-time = "2025-06-12T21:55:35.386Z" },
+]
+
+[[package]]
+name = "tensorrt-cu12-libs"
+version = "10.12.0.36"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "nvidia-cuda-runtime-cu12" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1e/bd/31d7dbd2d23a3558f7f4b3447586b4ef9141a0f3a0748c41c730e99cf6a6/tensorrt_cu12_libs-10.12.0.36.tar.gz", hash = "sha256:d26af485ad452599016bde631f4cd223b97f240afb647162ab0c5e8f89708934", size = 709, upload-time = "2025-06-12T21:22:47.972Z" }
 
 [[package]]
 name = "termcolor"

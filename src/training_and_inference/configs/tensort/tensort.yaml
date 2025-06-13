@@ -1,0 +1,3 @@
+onnx_model_path: ../onnx-model
+trt_engine_path: ../tensort-engine/tucker_model.plan
+max_batch_size: 1
