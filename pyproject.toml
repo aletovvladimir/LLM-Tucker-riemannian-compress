@@ -9,6 +9,7 @@ dependencies = [
     "hydra-core>=1.3.2",
     "mlflow>=3.1.0",
     "numpy==1.21.4",
+    "omegaconf>=2.3.0",
     "onnx>=1.17.0",
     "opt-einsum==3.3.0",
     "pytorch-lightning>=2.3.3",
@@ -49,4 +50,4 @@ dev = [
 
 [tool.flake8]
     max-line-length = 88
-    extend-ignore = ["E203", "W503"]  # black несовместим с этими
+    extend-ignore = ["E203", "W503"]
