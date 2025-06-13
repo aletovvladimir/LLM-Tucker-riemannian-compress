@@ -10,7 +10,7 @@
 
 ```bash
 git clone git@github.com:aletovvladimir/LLM-Tucker-riemannian-compress.git
-cd LLM-Tucker-Riemannian-Compress
+cd LLM-Tucker-riemannian-compress
 ```
 
 2. **Создайте окружение через Conda:**
