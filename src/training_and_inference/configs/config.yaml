@@ -20,7 +20,7 @@ model_params:
 riemannian_params:
     is_riemann: True
     rank: [256, 256, 9]
-    replace_layers_idxs: [2,]   #[2, 3, 4, 5, 6, 7, 8, 9]
+    replace_layers_idxs: [2, 3, 4,]
 
 training_params:
     batch_size: 56
