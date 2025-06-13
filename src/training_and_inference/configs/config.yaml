@@ -34,7 +34,7 @@ mlflow:
     port: '8080'
 
 inference:
-    texts_dir: ../../texts
-    output_dir: ../../texts
+    texts_dir: ../texts
+    output_dir: ../texts
     device: cuda
 
