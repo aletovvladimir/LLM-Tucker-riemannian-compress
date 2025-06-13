@@ -33,11 +33,11 @@ class TDataset(pl.LightningDataModule):
         data = pd.read_csv(self.data_link)
         data = data.rename(columns={'review' : 'text', 'sentiment':'label'})
         
-        train_df, test_df = train_test_split(df, test_size=0.5, random_state=self.config.seed.seed)
+        train_df, test_df = train_test_split(data, test_size=0.5, random_state=self.cfg.seed)
         train_dataset = datasets.Dataset.from_pandas(train_df)
         test_dataset = datasets.Dataset.from_pandas(test_df)
         
-        dataset = dataset.DatasetDict({
+        dataset = datasets.DatasetDict({
             "train": train_dataset,
             "test": test_dataset,
         })
@@ -81,9 +81,11 @@ class TDataset(pl.LightningDataModule):
     def collate_fn(self, batch, pad_id=0):
         input_ids = []
         labels = []
+        map_dict = {'positive' : 1,
+                    'negative' : 0}
         for sample in batch:
             input_ids.append(torch.tensor(sample["input_ids"], dtype=torch.long))
-            labels.append(torch.tensor(sample["label"], dtype=torch.long))
+            labels.append(torch.tensor(map_dict[sample["label"]], dtype=torch.long))
 
         batch = {
             "input_ids": nn.utils.rnn.pad_sequence(
