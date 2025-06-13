@@ -1,7 +1,7 @@
 import hydra
 import torch
 
-from .utils.utils import get_model
+from .utils.model_class import LitModel
 from .utils.data_class import get_tokenizer
 from pathlib import Path
 from omegaconf import DictConfig
@@ -10,8 +10,10 @@ from omegaconf import DictConfig
 @hydra.main(config_path="configs", config_name="config")
 def main(config: DictConfig):
     device = config.inference.device
+    
+    ckpt_path = Path(config.inference.ckpt_dir) / 'last.ckpt' 
 
-    model = get_model(config).model.to(device)
+    model = LitModel.load_from_checkpoint(checkpoint_path=ckpt_path, config=config).model.to(device)
     model.eval()
 
     tokenizer = get_tokenizer(config)
