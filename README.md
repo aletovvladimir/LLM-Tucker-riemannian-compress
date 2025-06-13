@@ -49,7 +49,7 @@ cd src
 ## 🏃 Обучение
 
 ```bash
-python -m src.training_and_inference.train
+python -m training_and_inference.train
 ```
 
 * Чекпойнты сохраняются в `model_checkpoints/`
@@ -69,7 +69,7 @@ python -m src.training_and_inference.train
 Запуск MLflow UI:
 
 ```bash
-python -m src.training_and_inference.utils.mlflow_server
+python -m training_and_inference.utils.mlflow_server
 ```
 
 Откройте: [http://localhost:8080](http://localhost:8080)
@@ -79,7 +79,7 @@ python -m src.training_and_inference.utils.mlflow_server
 ## 🧠 Инференс
 
 ```bash
-python -m src.training_and_inference.inference
+python -m training_and_inference.inference
 ```
 
 * Ожидается файл: `texts/review.txt`
@@ -98,7 +98,7 @@ Prediction: positive (Prob: 0.9997)
 ## 📦 ONNX Экспорт
 
 ```bash
-python -m src.training_and_inference.onnx_utils.convert_and_export
+python -m training_and_inference.onnx_utils.convert_and_export
 ```
 
 * Экспорт: `onnx-model/tucker_model.onnx`
