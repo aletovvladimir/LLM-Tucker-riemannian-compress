@@ -1,10 +1,10 @@
+import unittest
+from unittest import TestCase
+
 import numpy as np
 
-from unittest import TestCase
-import unittest
 from compress import TuckerMatrix
 from compress import backend as back
-
 
 
 class TuckerMatrixTest(TestCase):
@@ -18,7 +18,9 @@ class TuckerMatrixTest(TestCase):
         matrix_dense = back.reshape(matrix_dense, (4, 4, 4))
         matrix_tucker = TuckerMatrix.from_dense(matrix_dense, (2, 2, 2), (2, 2, 2))
         y = matrix_tucker @ x
-        assert np.allclose(back.to_numpy(y_dense), back.to_numpy(back.reshape(y, (8,))), atol=1e-5)
+        assert np.allclose(
+            back.to_numpy(y_dense), back.to_numpy(back.reshape(y, (8,))), atol=1e-5
+        )
 
     def testDenseBatchMatmul(self):
         matrix_dense = back.randn((8, 8))
@@ -30,7 +32,10 @@ class TuckerMatrixTest(TestCase):
         matrix_dense = back.reshape(matrix_dense, (4, 4, 4))
         matrix_tucker = TuckerMatrix.from_dense(matrix_dense, (2, 2, 2), (2, 2, 2))
         y = matrix_tucker @ x
-        assert np.allclose(back.to_numpy(y_dense), back.to_numpy(back.reshape(y, (10, 8))), atol=1e-5)
-        
-if __name__ == '__main__':
+        assert np.allclose(
+            back.to_numpy(y_dense), back.to_numpy(back.reshape(y, (10, 8))), atol=1e-5
+        )
+
+
+if __name__ == "__main__":
     unittest.main()

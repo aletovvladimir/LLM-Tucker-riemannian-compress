@@ -1,0 +1,23 @@
+callbacks:
+  - LearningRateMonitor
+  - RichModelSummary
+  - ModelCheckpoint
+  - TQDMProgressBar
+
+callback_kwargs:
+  LearningRateMonitor:
+    logging_interval: step
+
+  RichModelSummary:
+    max_depth: 2
+
+  TQDMProgressBar:
+    refresh_rate: 10
+
+  ModelCheckpoint:
+    dirpath: ../model_checkpoints
+    filename: last
+    save_last: True
+    save_top_k: 1
+    monitor: val_accuracy
+    mode: max

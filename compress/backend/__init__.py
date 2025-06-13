@@ -1,13 +1,13 @@
-import warnings
 import importlib
-import os
-import threading
 import inspect
-import types
+import os
 import sys
+import threading
+import types
+import warnings
+from contextlib import contextmanager
 
 from .backend import Backend
-from contextlib import contextmanager
 
 
 class dynamically_dispatched_class_attribute(object):
@@ -24,19 +24,83 @@ class dynamically_dispatched_class_attribute(object):
 
 
 class BackendManager(types.ModuleType):
-    _functions = ["reshape", "any", "trace", "shape", "ndim",
-                  "where", "copy", "transpose", "arange", "ones", "zeros",
-                  "zeros_like", "eye", "kron", "concatenate", "max", "min", "matmul",
-                  "all", "mean", "sum", "cumsum", "prod", "sign", "abs", "sqrt", "argmin",
-                  "argmax", "stack", "conj", "diag", "einsum", "log2", "dot",
-                  "sin", "cos", "clip", "khatri_rao", "lstsq", "eps", "finfo",
-                  "solve", "qr", "randn", "check_random_state", "sort", "eigh",
-                  "context", "tensor", "norm", "to_numpy", "is_tensor",
-                  "argsort", "flip", "count_nonzero", "svd", "squeeze", "grad", "pad",
-                  "cho_factor", "cho_solve", "lu_factor", "lu_solve"
-                  ]
-    _attributes = ["type", "int64", "int32", "float64", "float32",
-                   "complex128", "complex64", "SVD_FUNS", "index", "backend_name"]
+    _functions = [
+        "reshape",
+        "any",
+        "trace",
+        "shape",
+        "ndim",
+        "where",
+        "copy",
+        "transpose",
+        "arange",
+        "ones",
+        "zeros",
+        "zeros_like",
+        "eye",
+        "kron",
+        "concatenate",
+        "max",
+        "min",
+        "matmul",
+        "all",
+        "mean",
+        "sum",
+        "cumsum",
+        "prod",
+        "sign",
+        "abs",
+        "sqrt",
+        "argmin",
+        "argmax",
+        "stack",
+        "conj",
+        "diag",
+        "einsum",
+        "log2",
+        "dot",
+        "sin",
+        "cos",
+        "clip",
+        "khatri_rao",
+        "lstsq",
+        "eps",
+        "finfo",
+        "solve",
+        "qr",
+        "randn",
+        "check_random_state",
+        "sort",
+        "eigh",
+        "context",
+        "tensor",
+        "norm",
+        "to_numpy",
+        "is_tensor",
+        "argsort",
+        "flip",
+        "count_nonzero",
+        "svd",
+        "squeeze",
+        "grad",
+        "pad",
+        "cho_factor",
+        "cho_solve",
+        "lu_factor",
+        "lu_solve",
+    ]
+    _attributes = [
+        "type",
+        "int64",
+        "int32",
+        "float64",
+        "float32",
+        "complex128",
+        "complex64",
+        "SVD_FUNS",
+        "index",
+        "backend_name",
+    ]
     available_backend_names = ["pytorch", "jax"]
     _default_backend = "pytorch"
     _loaded_backends = dict()
@@ -50,7 +114,15 @@ class BackendManager(types.ModuleType):
         for name in cls._functions:
             if hasattr(cls, name):
                 delattr(cls, name)
-            setattr(cls, name, staticmethod(cls.dispatch_backend_method(name, getattr(cls.current_backend(), name))))
+            setattr(
+                cls,
+                name,
+                staticmethod(
+                    cls.dispatch_backend_method(
+                        name, getattr(cls.current_backend(), name)
+                    )
+                ),
+            )
         for name in cls._attributes:
             if hasattr(cls, name):
                 delattr(cls, name)
@@ -93,19 +165,26 @@ class BackendManager(types.ModuleType):
         """Create a dispatched function from a generic backend method."""
 
         def wrapped_backend_method(*args, **kwargs):
-            return getattr(cls._THREAD_LOCAL_DATA.__dict__.get("backend", cls._backend), name)(*args, **kwargs)
+            return getattr(
+                cls._THREAD_LOCAL_DATA.__dict__.get("backend", cls._backend), name
+            )(*args, **kwargs)
 
         # We don"t use `functools.wraps` here because some of the dispatched
         # methods include the backend (`cls`) as a parameter. Instead we manually
         # copy over the needed information, and filter the signature for `cls`.
-        for attr in ["__module__", "__name__", "__qualname__", "__doc__",
-                     "__annotations__"]:
+        for attr in [
+            "__module__",
+            "__name__",
+            "__qualname__",
+            "__doc__",
+            "__annotations__",
+        ]:
             try:
                 setattr(wrapped_backend_method, attr, getattr(method, attr))
             except AttributeError:
                 pass
 
-        getattr(wrapped_backend_method, "__dict__").update(getattr(method, "__dict__", {}))
+        wrapped_backend_method.__dict__.update(method.__dict__)
         wrapped_backend_method.__wrapped__ = method
         try:
             sig = inspect.signature(method)
@@ -115,7 +194,8 @@ class BackendManager(types.ModuleType):
             wrapped_backend_method.__signature__ = sig
         except ValueError:
             # If it doesn"t have a signature we don"t need to remove self
-            # This happens for NumPy (e.g. np.where) where inspect.signature(np.where) errors:
+            # This happens for NumPy (e.g. np.where) where inspect.signature(np.where)
+            # errors:
             # ValueError: no signature found for builtin <built-in function where>
             pass
 
@@ -145,15 +225,19 @@ class BackendManager(types.ModuleType):
     @classmethod
     def initialize_backend(cls):
         """Initialises the backend
-            1) retrieve the default backend name from the `COMPRESS_BACKEND` environment variable
-                if not found, use _DEFAULT_BACKEND
-            2) set the backend to the retrieved backend name
+        1) retrieve the default backend name from the `COMPRESS_BACKEND`
+            environment variable
+            if not found, use _DEFAULT_BACKEND
+        2) set the backend to the retrieved backend name
         """
         backend_name = os.environ.get(cls._ENV_DEFAULT_VAR, cls._default_backend)
         if backend_name not in cls.available_backend_names:
-            msg = (f"{cls._ENV_DEFAULT_VAR} should be one of {''.join(map(repr, cls.available_backend_names))}"
-                   f", got {backend_name}. Defaulting to {cls._default_backend}'")
-            warnings.warn(msg, UserWarning)
+            msg = (
+                f"{cls._ENV_DEFAULT_VAR} should be one of \
+                    {''.join(map(repr, cls.available_backend_names))}"
+                f", got {backend_name}. Defaulting to {cls._default_backend}'"
+            )
+            warnings.warn(msg, UserWarning, stacklevel=2)
             backend_name = cls._default_backend
 
         cls._default_backend = backend_name
@@ -167,13 +251,19 @@ class BackendManager(types.ModuleType):
 
         :param backend_name: name of the backend to load
         :type str
-        :raise ValueError if `backend_name` does not correspond to one listed in `_KNOWN_BACKEND`
+        :raise ValueError if `backend_name`
+         does not correspond to one listed in `_KNOWN_BACKEND`
         """
         if backend_name not in cls.available_backend_names:
-            msg = f"Unknown backend name {backend_name!r}, known backends are {cls.available_backend_names}"
+            msg = (
+                f"Unknown backend name {backend_name!r},"
+                + f"known backends are {cls.available_backend_names}"
+            )
             raise ValueError(msg)
         if backend_name not in Backend._available_backends:
-            importlib.import_module(f"compress.backend.{backend_name}_backend")  # compress!
+            importlib.import_module(
+                f"compress.backend.{backend_name}_backend"
+            )  # compress!
         if backend_name in Backend._available_backends:
             backend = Backend._available_backends[backend_name]()
             cls._loaded_backends[backend_name] = backend
@@ -205,7 +295,11 @@ class BackendManager(types.ModuleType):
         cls.current_backend().register_method(name, fun_or_attr)
 
     def __dir__(cls):
-        additionals = ["dynamically_dispatched_class_attribute", "backend_manager", "BackendManager"]
+        additionals = [
+            "dynamically_dispatched_class_attribute",
+            "backend_manager",
+            "BackendManager",
+        ]
         return cls.get_backend_dir() + additionals
 
 

@@ -13,3 +13,7 @@ wheels/
 log.txt
 test_imports.txt
 wandb/
+plots/
+outputs/
+model_checkpoints/
+riemann_compression/

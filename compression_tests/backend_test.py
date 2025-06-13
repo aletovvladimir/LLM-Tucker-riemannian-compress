@@ -1,15 +1,11 @@
-from unittest import TestCase
 import unittest
-from compress import set_backend
+from unittest import TestCase
 
+from compress import set_backend
 from compression_tests.tucker_tests import tucker_test
 
 
-
-
 class BackendTest(TestCase):
-
-
     def testPytorchBackend(self):
         set_backend("pytorch")
         instance = tucker_test.TuckerTensorTest()
@@ -20,8 +16,8 @@ class BackendTest(TestCase):
         instance.testModeProd()
 
     def testBackend(self):
-
         self.testPytorchBackend()
-        
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     unittest.main()

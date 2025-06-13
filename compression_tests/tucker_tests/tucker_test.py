@@ -1,11 +1,10 @@
-import numpy as np
-
-from unittest import TestCase
 import unittest
+from unittest import TestCase
+
+import numpy as np
 
 from compress import Tucker
 from compress import backend as back
-
 
 
 class TuckerTensorTest(TestCase):
@@ -13,13 +12,15 @@ class TuckerTensorTest(TestCase):
 
     def createTestTensor(self, n=4):
         """
-            A_ijk = i + j + k
+        A_ijk = i + j + k
         """
         x = back.arange(n) + 1
         e = back.ones(n, dtype=back.float64)
-        A = back.einsum("i,j,k->ijk", x, e, e) + \
-            back.einsum("i,j,k->ijk", e, x, e) + \
-            back.einsum("i,j,k->ijk", e, e, x)
+        A = (
+            back.einsum("i,j,k->ijk", x, e, e)
+            + back.einsum("i,j,k->ijk", e, x, e)
+            + back.einsum("i,j,k->ijk", e, e, x)
+        )
         return A
 
     def testFull2Tuck(self):
@@ -59,6 +60,7 @@ class TuckerTensorTest(TestCase):
         assert np.allclose(A_tuck.k_mode_product(0, M).to_dense(), Z)
         assert np.allclose(A_tuck.k_mode_product(1, M).to_dense(), Z)
         assert np.allclose(A_tuck.k_mode_product(2, M).to_dense(), Z)
-        
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     unittest.main()

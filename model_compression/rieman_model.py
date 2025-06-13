@@ -21,7 +21,8 @@ class RiemannModel(nn.Module):
 
     def regular_parameters(self):
         """
-        :return: regulary trainable parameters (conv, batchnorm, etc). Does not return riemann parameters
+        :return: regulary trainable parameters (conv, batchnorm, etc).
+        Does not return riemann parameters
         """
         params = nn.ParameterList()
         for param in self.parameters():
@@ -58,9 +59,7 @@ class RiemannLayer(nn.Module):
         self.rank = rank
 
     def riemann_parameters(self):
-        params = nn.ParameterList([
-            self.core, *self.factors
-        ])
+        params = nn.ParameterList([self.core, *self.factors])
         return params
 
     def to(self, device, dtype=None, non_blocking=True):
@@ -72,14 +71,19 @@ class RiemannLayer(nn.Module):
     def train(self, mode: bool = True):
         if mode:
             if self.core.shape[0] == self.rank[0]:
-                self.core.data = TangentVector.group_cores(self.core.data, self.core.data)
+                self.core.data = TangentVector.group_cores(
+                    self.core.data, self.core.data
+                )
                 for i in range(len(self.factors)):
-                    self.factors[i].data = torch.hstack([self.factors[i].data,
-                                                         torch.zeros_like(self.factors[i].data)])
+                    self.factors[i].data = torch.hstack(
+                        [self.factors[i].data, torch.zeros_like(self.factors[i].data)]
+                    )
         else:
             if self.core.shape[0] > self.rank[0]:
-                rank_slices = [slice(0, self.rank[i], None) for i in range(len(self.rank))]
+                rank_slices = [
+                    slice(0, self.rank[i], None) for i in range(len(self.rank))
+                ]
                 self.core.data = self.core[tuple(rank_slices)]
                 for i in range(len(self.factors)):
-                    self.factors[i].data = self.factors[i][:, :self.rank[i]]
+                    self.factors[i].data = self.factors[i][:, : self.rank[i]]
         super().train(mode)

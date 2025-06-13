@@ -1,20 +1,23 @@
-import warnings
 import itertools
-import numpy as np
 import typing
-
+import warnings
 from string import ascii_letters
+
+import numpy as np
 
 try:
     import torch
 except ImportError as error:
-    message = ("Impossible to import PyTorch.\n"
-               "To use compress with the PyTorch backend, "
-               "you must first install PyTorch!")
+    message = (
+        "Impossible to import PyTorch.\n"
+        "To use compress with the PyTorch backend, "
+        "you must first install PyTorch!"
+    )
     raise ImportError(message) from error
 
-from opt_einsum import contract
 from distutils.version import LooseVersion
+
+from opt_einsum import contract
 
 from .backend import Backend
 
@@ -28,15 +31,19 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
 
     @staticmethod
     def context(tensor):
-        return {"dtype": tensor.dtype,
-                "device": tensor.device,
-                "requires_grad": tensor.requires_grad}
+        return {
+            "dtype": tensor.dtype,
+            "device": tensor.device,
+            "requires_grad": tensor.requires_grad,
+        }
 
     @staticmethod
     def tensor(data, dtype=torch.float32, device="cpu", requires_grad=False):
         if isinstance(data, np.ndarray):
             data = data.copy()
-        return torch.tensor(data, dtype=dtype, device=device, requires_grad=requires_grad)
+        return torch.tensor(
+            data, dtype=dtype, device=device, requires_grad=requires_grad
+        )
 
     @staticmethod
     def to_numpy(tensor):
@@ -62,7 +69,9 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
     @staticmethod
     def arange(start, stop=None, step=1.0, *args, **kwargs):
         if stop is None:
-            return torch.arange(start=0., end=float(start), step=float(step), *args, **kwargs)
+            return torch.arange(
+                *args, start=0.0, end=float(start), step=float(step), **kwargs
+            )
         else:
             return torch.arange(float(start), float(stop), float(step), *args, **kwargs)
 
@@ -78,7 +87,9 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
         elif order == "F":
             return reshape_fortran(tensor, newshape)
         else:
-            raise NotImplementedError("Only C-style and Fortran-style reshapes are supported")
+            raise NotImplementedError(
+                "Only C-style and Fortran-style reshapes are supported"
+            )
 
     @staticmethod
     def clip(tensor, a_min=None, a_max=None, inplace=False):
@@ -202,7 +213,11 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
             sol = torch.lstsq(b, a)[0]
             x = sol[:n]
             residuals = torch.linalg.norm(sol[n:], ord=2, dim=0) ** 2
-            return x, residuals if torch.matrix_rank(a) == n else torch.tensor([], device=x.device)
+            return x, (
+                residuals
+                if torch.matrix_rank(a) == n
+                else torch.tensor([], device=x.device)
+            )
 
     @staticmethod
     def eigh(tensor):
@@ -219,7 +234,11 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
         return torch.cumsum(tensor, dim=-1 if axis is None else axis)
 
     @staticmethod
-    def grad(func: typing.Callable, argnums: typing.Union[int, typing.Sequence[int]] = 0, retain_graph=False):
+    def grad(
+        func: typing.Callable,
+        argnums: typing.Union[int, typing.Sequence[int]] = 0,
+        retain_graph=False,
+    ):
         def grad_tensor(tensor):
             return tensor.grad
 
@@ -234,7 +253,11 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
                 if len(elem) == 0:
                     return []
                 if not type(elem[0]) is PyTorchBackend.type():
-                    raise TypeError("Expected list of torch.tensor, not list of {}".format(type(elem[0])))
+                    raise TypeError(
+                        "Expected list of torch.tensor, not list of {}".format(
+                            type(elem[0])
+                        )
+                    )
                 return grad_list(elem)
             elif type(elem) is PyTorchBackend.type():
                 return grad_tensor(elem)
@@ -280,21 +303,26 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
     @staticmethod
     def pad(tensor, pad_width, mode, **kwargs):
         def get_mode_torch(mode_numpy):
-            if mode_numpy in ['reflect', 'constant']:
+            if mode_numpy in ["reflect", "constant"]:
                 return mode_numpy
-            elif mode_numpy == 'edge':
-                return 'replicate'
-            elif mode_numpy == 'wrap':
-                return 'circular'
+            elif mode_numpy == "edge":
+                return "replicate"
+            elif mode_numpy == "wrap":
+                return "circular"
             else:
-                assert False, f'NumPy mode "{mode_numpy}" has no PyTorch equivalent'
+                raise AssertionError(
+                    f"NumPy mode '{mode_numpy}' has no PyTorch equivalent"
+                )
 
         def get_pad_width_torch(pad_width_numpy, mode_torch):
-            pad_width_torch = tuple(itertools.chain.from_iterable(reversed(pad_width_numpy)))
+            pad_width_torch = tuple(
+                itertools.chain.from_iterable(reversed(pad_width_numpy))
+            )
 
-            if mode_torch in ['reflect', 'replicate', 'circular']:
-                assert all([p == 0 for p in pad_width_torch[
-                                            -4:]]), f'Cannot pad first two dimensions in PyTorch with mode="{mode_torch}"'
+            if mode_torch in ["reflect", "replicate", "circular"]:
+                assert all(
+                    [p == 0 for p in pad_width_torch[-4:]]
+                ), f"Cannot pad first two dimensions in PyTorch with mode={mode_torch}"
                 return pad_width_torch[:-4]
 
             return pad_width_torch
@@ -302,7 +330,9 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
         mode_torch = get_mode_torch(mode)
         pad_width_torch = get_pad_width_torch(pad_width, mode_torch)
         value = kwargs.get("constant_values")
-        res = torch.nn.functional.pad(tensor, pad_width_torch, mode=mode_torch, value=value)
+        res = torch.nn.functional.pad(
+            tensor, pad_width_torch, mode=mode_torch, value=value
+        )
         return res
 
     @staticmethod
@@ -331,28 +361,58 @@ class PyTorchBackend(Backend, backend_name="pytorch"):
 
     @staticmethod
     def kron(a, b):
-        a_letters = ascii_letters[:a.ndim]
-        b_letters = ascii_letters[a.ndim:a.ndim + b.ndim]
+        a_letters = ascii_letters[: a.ndim]
+        b_letters = ascii_letters[a.ndim : a.ndim + b.ndim]
         res_letters = []
         res_shape = []
         for i in range(a.ndim):
             res_letters.append(a_letters[i] + b_letters[i])
             res_shape.append(a.shape[i] * b.shape[i])
-        res = PyTorchBackend.einsum(f"{a_letters},{b_letters}->{''.join(res_letters)}", a, b)
-        res = PyTorchBackend.reshape(res, res_shape )
+        res = PyTorchBackend.einsum(
+            f"{a_letters},{b_letters}->{''.join(res_letters)}", a, b
+        )
+        res = PyTorchBackend.reshape(res, res_shape)
         return res
 
 
-for name in ["float64", "float32", "int64", "int32", "complex128", "complex64",
-             "is_tensor", "ones", "zeros", "any", "trace", "count_nonzero",
-             "zeros_like", "eye", "min", "prod", "abs", "matmul",
-             "sqrt", "sign", "where", "conj", "finfo", "log2", "sin", "cos", "squeeze"]:
+for name in [
+    "float64",
+    "float32",
+    "int64",
+    "int32",
+    "complex128",
+    "complex64",
+    "is_tensor",
+    "ones",
+    "zeros",
+    "any",
+    "trace",
+    "count_nonzero",
+    "zeros_like",
+    "eye",
+    "min",
+    "prod",
+    "abs",
+    "matmul",
+    "sqrt",
+    "sign",
+    "where",
+    "conj",
+    "finfo",
+    "log2",
+    "sin",
+    "cos",
+    "squeeze",
+]:
     PyTorchBackend.register_method(name, getattr(torch, name))
 
 if LooseVersion(torch.__version__) < LooseVersion("1.8.0"):
-    warnings.warn(f"You are using an old version of PyTorch ({torch.__version__}). "
-                  "We recommend upgrading to a newest one, e.g. >1.8.0.")
-    PyTorchBackend.register_method("qr", getattr(torch, "qr"))
+    warnings.warn(
+        f"You are using an old version of PyTorch ({torch.__version__}). "
+        "We recommend upgrading to a newest one, e.g. >1.8.0.",
+        stacklevel=2,
+    )
+    PyTorchBackend.register_method("qr", torch.qr)
 
 else:
     for name in ["solve", "qr", "svd", "eigh"]:

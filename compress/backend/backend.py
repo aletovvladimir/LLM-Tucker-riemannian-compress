@@ -1,6 +1,7 @@
-import warnings
-import numpy as np
 import typing
+import warnings
+
+import numpy as np
 
 
 class Backend(object):
@@ -13,7 +14,10 @@ class Backend(object):
             cls._available_backends[backend_name.lower()] = cls
             cls.backend_name = backend_name
         else:
-            warnings.warn(f"Creating a subclass of BaseBackend ({cls.__name__}) with no name.")
+            warnings.warn(
+                f"Creating a subclass of BaseBackend ({cls.__name__}) with no name.",
+                stacklevel=2,
+            )
 
     def __repr__(self):
         return f"Tucker riemopt {self.backend_name}-backend"
@@ -258,7 +262,9 @@ class Backend(object):
 
     def khatri_rao(self, matrices, weights=None, mask=None):
         if len(matrices) < 2:
-            raise ValueError(f"kr requires a list of at least 2 matrices, but {len(matrices)} given.")
+            raise ValueError(
+                f"kr requires a list of at least 2 matrices, but {len(matrices)} given."
+            )
 
         n_col = self.shape(matrices[0])[1]
         for i, e in enumerate(matrices[1:]):
@@ -298,7 +304,9 @@ class Backend(object):
         raise NotImplementedError
 
     @staticmethod
-    def grad(func: typing.Callable, argnums: typing.Union[int, typing.Sequence[int]] = 0):
+    def grad(
+        func: typing.Callable, argnums: typing.Union[int, typing.Sequence[int]] = 0
+    ):
         raise NotImplementedError
 
     @staticmethod
@@ -314,30 +322,31 @@ class Backend(object):
 
     @staticmethod
     def cho_factor(A, upper=False, **kwargs):
-        '''
+        """
         Performs Cholesky decomposition of matrix A.
         :param A: Positive defined square matrix
         :param upper: True if Cholesky factor should be upper triangular
         :return: Cholesky decomposition of matrix (depends on backend)
-        '''
+        """
         raise NotImplementedError
 
     @staticmethod
     def cho_solve(B, L, upper=False, **kwargs):
-        '''
-        Solve system of linear equations Ax=B, where A passed by its Cholesky decomposition.
+        """
+        Solve system of linear equations Ax=B,
+        where A passed by its Cholesky decomposition.
         :param B: right hand side matrix
         :param L: Choleski factor of A
         :return: solution of system of linear equations (depends on backend)
-        '''
+        """
         raise NotImplementedError
 
     @staticmethod
     def lu_factor(A, pivot=True):
-        ''''''
+        """"""
         raise NotImplementedError
 
     @staticmethod
     def lu_solve(lu_pivots, B, left=True):
-        ''''''
+        """"""
         raise NotImplementedError

@@ -1,6 +1,6 @@
-import numpy as np
-
 from unittest import TestCase
+
+import numpy as np
 
 from compress import backend as back
 from compress.sparse import SparseTensor
@@ -8,24 +8,26 @@ from compress.sparse import SparseTensor
 
 class SparseTensorTest(TestCase):
     def creareTestTensor(self):
-        return back.tensor([
+        return back.tensor(
             [
-                [0, 1, 0, 0],
-                [2, 0, 0, 1],
-                [3, 0, 1, 0],
-            ],
-            [
-                [0, 0, 1, 1],
-                [0, 3, 1, 0],
-                [0, 0, 0, 0],
+                [
+                    [0, 1, 0, 0],
+                    [2, 0, 0, 1],
+                    [3, 0, 1, 0],
+                ],
+                [
+                    [0, 0, 1, 1],
+                    [0, 3, 1, 0],
+                    [0, 0, 0, 0],
+                ],
             ]
-        ])
+        )
 
     def testToDense(self):
         inds = (
             back.tensor([0, 1, 0, 0, 0, 1, 0, 1, 1], dtype=back.int32),
             back.tensor([1, 0, 2, 0, 1, 1, 2, 0, 1], dtype=back.int32),
-            back.tensor([0, 3, 0, 1, 3, 1, 2, 2, 2], dtype=back.int32)
+            back.tensor([0, 3, 0, 1, 3, 1, 2, 2, 2], dtype=back.int32),
         )
         vals = back.tensor([2, 1, 3, 1, 1, 3, 1, 1, 1], dtype=back.int32)
         shape = (2, 3, 4)
@@ -37,9 +39,24 @@ class SparseTensorTest(TestCase):
         assert (SparseTensor.dense2sparse(A).to_dense() == A).all()
 
     def testUnfolding(self):
-        unfolding0 = back.tensor([[0, 2, 3, 1, 0, 0, 0, 0, 1, 0, 1, 0], [0, 0, 0, 0, 3, 0, 1, 1, 0, 1, 0, 0]])
-        unfolding1 = back.tensor([[0, 0, 1, 0, 0, 1, 0, 1], [2, 0, 0, 3, 0, 1, 1, 0], [3, 0, 0, 0, 1, 0, 0, 0]])
-        unfolding2 = back.tensor([[0, 0, 2, 0, 3, 0], [1, 0, 0, 3, 0, 0], [0, 1, 0, 1, 1, 0], [0, 1, 1, 0, 0, 0]])
+        unfolding0 = back.tensor(
+            [[0, 2, 3, 1, 0, 0, 0, 0, 1, 0, 1, 0], [0, 0, 0, 0, 3, 0, 1, 1, 0, 1, 0, 0]]
+        )
+        unfolding1 = back.tensor(
+            [
+                [0, 0, 1, 0, 0, 1, 0, 1],
+                [2, 0, 0, 3, 0, 1, 1, 0],
+                [3, 0, 0, 0, 1, 0, 0, 0],
+            ]
+        )
+        unfolding2 = back.tensor(
+            [
+                [0, 0, 2, 0, 3, 0],
+                [1, 0, 0, 3, 0, 0],
+                [0, 1, 0, 1, 1, 0],
+                [0, 1, 1, 0, 0, 0],
+            ]
+        )
         A = self.creareTestTensor()
         A = SparseTensor.dense2sparse(A)
         assert (back.tensor(A.unfolding(0).todense()) == unfolding0).all()
