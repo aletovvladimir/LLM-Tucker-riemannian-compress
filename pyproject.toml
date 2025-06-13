@@ -1,7 +1,7 @@
 [project]
-name = "compress-and-training"
+name = "LLM-Tucker-riemannian-compress"
 version = "0.1.0"
-description = "Add your description here"
+description = "Tensor decomposition of LLM's attention layers and it's training"
 readme = "README.md"
 requires-python = "==3.10.*"
 dependencies = [
@@ -23,7 +23,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-packages = ["compress", "model_compression", "model_training"]
+packages = ["compress", "model_compression", "training_and_inference"]
 
 [dependency-groups]
 dev = [
