@@ -1,6 +1,5 @@
 callbacks:
   - LearningRateMonitor
-  - RichModelSummary
   - ModelCheckpoint
   - TQDMProgressBar
 

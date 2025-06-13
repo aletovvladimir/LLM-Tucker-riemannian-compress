@@ -184,7 +184,9 @@ class BackendManager(types.ModuleType):
             except AttributeError:
                 pass
 
-        wrapped_backend_method.__dict__.update(method.__dict__)
+        getattr(wrapped_backend_method, "__dict__").update(
+            getattr(method, "__dict__", {})
+        )
         wrapped_backend_method.__wrapped__ = method
         try:
             sig = inspect.signature(method)

@@ -1,7 +1,7 @@
 from string import ascii_letters
 from typing import Callable, List, Tuple, Union
 
-from compress import Tucker
+from .tucker import Tucker
 from compress import backend as back
 from compress.tucker_decomposition.matrix import TuckerMatrix
 

@@ -1,5 +1,6 @@
 import hydra
 import pytorch_lightning as pl
+from omegaconfig import Dictconfig
 
 from .utils.utils import get_callbacks, get_data, get_model, get_trainer
 
@@ -7,7 +8,7 @@ from .utils.utils import get_callbacks, get_data, get_model, get_trainer
 
 
 @hydra.main(config_path="configs", config_name="config")
-def main(config):
+def main(config: Dictconfig):
     pl.seed_everything(config.seed)
 
     dm = get_data(config)

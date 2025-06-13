@@ -1,34 +1,31 @@
-import os
-
-import matplotlib.pyplot as plt
-import mlflow
 import pytorch_lightning.callbacks as plc
 from hydra.utils import instantiate
-from pytorch_lightning.loggers import MLFlowLogger
+from omegaconfig import Dictconfig
+from pytorch_lightning.callbacks import Callback
+from pytorch_lightning.loggers import Logger
+from pytorch_lightning import Trainer
+import pytorch_lightning as pl
+from typing import List
 
 from .data_class import TDataset
 from .model_class import LitModel
 
 
-def get_model(config):
+def get_model(config: Dictconfig) -> pl.LightningModule:
     model = LitModel(config)
     return model
 
 
-def get_data(config):
+def get_data(config: Dictconfig) -> pl.LightningDataModule:
     datamodule = TDataset(config)
     return datamodule
 
 
-def get_trainer(config, loggers, callbacks):
+def get_trainer(config: Dictconfig, loggers: List[Logger], callbacks: List[Callback]) -> Trainer:
     trainer = instantiate(config.trainer, callbacks=callbacks, logger=loggers)
     return trainer
 
-
-import pytorch_lightning.callbacks as plc
-
-
-def get_callbacks(config):
+def get_callbacks(config: Dictconfig) -> List[Callback]:
     callbacks = []
 
     for name in config.callbacks.callbacks:

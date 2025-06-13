@@ -17,6 +17,14 @@ dependencies = [
     "transformers==4.37.1",
 ]
 
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["compress", "model_compression", "model_training"]
+
 [dependency-groups]
 dev = [
     "fire>=0.7.0",

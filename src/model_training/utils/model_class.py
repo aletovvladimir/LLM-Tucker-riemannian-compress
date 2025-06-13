@@ -1,14 +1,16 @@
 import pytorch_lightning as pl
-import torch.nn
+import torch.nn as nn
 from hydra.utils import instantiate
 from transformers import AutoModelForSequenceClassification
+from omegaconf import DictConfig
 
-from model_compression import RiemannModel, TRAdam, TuckerLinear
+from model_compression import RiemannModel, TuckerLinear
 
 
 class LitModel(pl.LightningModule):
 
-    def tucker_replace_attention(self, model):
+    def tucker_replace_attention(self, model: nn.Module):
+        '''Replace Attention layers with Tucker decomposition'''
         bert = next(model.children())
         bert_layers = list(list(bert.children())[1].children())[0]
         params = []
@@ -46,7 +48,7 @@ class LitModel(pl.LightningModule):
         model = RiemannModel(model)
         return model, params
 
-    def __init__(self, config):
+    def __init__(self, config: DictConfig):
         super().__init__()
 
         self.cfg = config
@@ -107,6 +109,7 @@ class LitModel(pl.LightningModule):
         return {"val_loss": loss, "val_accuracy": acc}
 
     def freeze_params(self):
+        '''Freeze regular parameters of model'''
         for p in self.model.regular_parameters():
             p.requires_grad_(False)
 

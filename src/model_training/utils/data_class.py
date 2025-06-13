@@ -3,10 +3,11 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-from transformers import AutoTokenizer, PreTrainedTokenizerBase
+from transformers import AutoTokenizer
+from omegaconf import DictConfig
 
 
-def get_tokenizer(config):
+def get_tokenizer(config: DictConfig):
     model_link = config.model_params.model_link
 
     tokenizer = AutoTokenizer.from_pretrained(model_link)
@@ -14,7 +15,7 @@ def get_tokenizer(config):
 
 
 class TDataset(pl.LightningDataModule):
-    def __init__(self, config):
+    def __init__(self, config: DictConfig):
         super().__init__()
 
         self.cfg = config

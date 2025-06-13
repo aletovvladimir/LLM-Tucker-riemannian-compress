@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from string import ascii_letters
 from typing import Sequence, Union
 
-from compress import Tucker
+from .tucker import Tucker
 from compress import backend as back
 
 

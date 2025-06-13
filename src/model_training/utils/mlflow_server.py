@@ -1,12 +1,12 @@
 import subprocess
 from pathlib import Path
-
+from omegaconf import DictConfig
 import hydra
 
 
 @hydra.main(config_path="../configs", config_name="config")
-def run_mlflow_ui(config):
-    base_dir = Path(__file__).resolve().parents[2]
+def run_mlflow_ui(config: DictConfig):
+    base_dir = Path(__file__).resolve().parents[3]
 
     mlruns_path = base_dir / "plots" / "mlruns"
 

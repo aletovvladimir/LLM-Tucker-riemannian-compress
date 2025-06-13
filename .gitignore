@@ -17,3 +17,4 @@ plots/
 outputs/
 model_checkpoints/
 riemann_compression/
+onnx-model/

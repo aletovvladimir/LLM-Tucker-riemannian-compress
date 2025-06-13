@@ -1,8 +1,8 @@
 import torch
-from omegaconf import OmegaConf
+from omegaconf import DictConfig
+import torch.nn as nn
 from transformers import AutoTokenizer
 
-from ..utils.model_class import LitModel
 import onnx
 import torch.nn as nn
 
@@ -15,7 +15,7 @@ class ONNXWrapper(nn.Module):
     def forward(self, input_ids, attention_mask):
         return self.model(input_ids=input_ids, attention_mask=attention_mask).logits
 
-def export_to_onnx(config, model, output_path):
+def export_to_onnx(config: DictConfig, model: nn.Module, output_path: str):
     model.eval()
 
     tokenizer = AutoTokenizer.from_pretrained(config.model_params.model_link)
