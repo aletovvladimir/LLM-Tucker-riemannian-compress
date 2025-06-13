@@ -1,5 +1,6 @@
 defaults:
     - seed
+    - onnx: onnx
     - optimizer: adam
     - scheduler: exponential
     - trainer: pl_trainer
@@ -31,4 +32,9 @@ hydra:
 
 mlflow:
     port: '8080'
+
+inference:
+    texts_dir: ../texts
+    output_dir: ../texts
+    device: cuda
 
